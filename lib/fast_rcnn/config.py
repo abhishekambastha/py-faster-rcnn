@@ -84,12 +84,12 @@ __C.TRAIN.BBOX_NORMALIZE_TARGETS = True
 __C.TRAIN.BBOX_INSIDE_WEIGHTS = (1.0, 1.0, 1.0, 1.0)
 # Normalize the targets using "precomputed" (or made up) means and stdevs
 # (BBOX_NORMALIZE_TARGETS must also be True)
-__C.TRAIN.BBOX_NORMALIZE_TARGETS_PRECOMPUTED = False
+__C.TRAIN.BBOX_NORMALIZE_TARGETS_PRECOMPUTED = True 
 __C.TRAIN.BBOX_NORMALIZE_MEANS = (0.0, 0.0, 0.0, 0.0)
 __C.TRAIN.BBOX_NORMALIZE_STDS = (0.1, 0.1, 0.2, 0.2)
 
 # Train using these proposals
-__C.TRAIN.PROPOSAL_METHOD = 'selective_search'
+__C.TRAIN.PROPOSAL_METHOD = 'rpn'
 
 # Make minibatches from images that have similar aspect ratios (i.e. both
 # tall and thin or both short and wide) in order to avoid wasting computation
@@ -97,7 +97,7 @@ __C.TRAIN.PROPOSAL_METHOD = 'selective_search'
 __C.TRAIN.ASPECT_GROUPING = True
 
 # Use RPN to detect objects
-__C.TRAIN.HAS_RPN = False
+__C.TRAIN.HAS_RPN = True
 # IOU >= thresh: positive example
 __C.TRAIN.RPN_POSITIVE_OVERLAP = 0.7
 # IOU < thresh: negative example
@@ -202,7 +202,7 @@ __C.MATLAB = 'matlab'
 __C.EXP_DIR = 'default'
 
 # Use GPU implementation of non-maximum suppression
-__C.USE_GPU_NMS = True
+__C.USE_GPU_NMS = False
 
 # Default GPU device id
 __C.GPU_ID = 0

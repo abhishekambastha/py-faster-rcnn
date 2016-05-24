@@ -103,9 +103,12 @@ class imdb(object):
         num_images = self.num_images
         widths = self._get_widths()
         for i in xrange(num_images):
+            print 'Flipped {}/num_images'.format(i)
             boxes = self.roidb[i]['boxes'].copy()
+            print 'Copied!'
             oldx1 = boxes[:, 0].copy()
             oldx2 = boxes[:, 2].copy()
+            print 'Copied All'
             boxes[:, 0] = widths[i] - oldx2 - 1
             boxes[:, 2] = widths[i] - oldx1 - 1
             assert (boxes[:, 2] >= boxes[:, 0]).all()
@@ -211,7 +214,7 @@ class imdb(object):
                 'Number of boxes must match number of ground-truth images'
         roidb = []
         for i in xrange(self.num_images):
-            boxes = box_list[i]
+            boxes = box_list[i]['boxes']
             num_boxes = boxes.shape[0]
             overlaps = np.zeros((num_boxes, self.num_classes), dtype=np.float32)
 
@@ -244,8 +247,8 @@ class imdb(object):
                                             b[i]['gt_classes']))
             a[i]['gt_overlaps'] = scipy.sparse.vstack([a[i]['gt_overlaps'],
                                                        b[i]['gt_overlaps']])
-            a[i]['seg_areas'] = np.hstack((a[i]['seg_areas'],
-                                           b[i]['seg_areas']))
+            #a[i]['seg_areas'] = np.hstack((a[i]['seg_areas'],
+             #                              b[i]['seg_areas']))
         return a
 
     def competition_mode(self, on):

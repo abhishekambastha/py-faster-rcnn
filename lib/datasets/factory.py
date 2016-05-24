@@ -12,6 +12,7 @@ __sets = {}
 from datasets.pascal_voc import pascal_voc
 from datasets.coco import coco
 import numpy as np
+from datasets.caltech import caltech
 
 # Set up voc_<year>_<split> using selective search "fast" mode
 for year in ['2007', '2012']:
@@ -31,10 +32,10 @@ for year in ['2015']:
         name = 'coco_{}_{}'.format(year, split)
         __sets[name] = (lambda split=split, year=year: coco(split, year))
 
-caltech_path = ''
+caltech_path = '/home/ubuntu/abhishek/attempt2/py-faster-rcnn/data/caltech'
 for split in ['train', 'test']:
     name = '{}_{}'.format('caltech', split)
-    __sets[name] = (lambda split=split: datasets.caltech (split, caltech_path))
+    __sets[name] = (lambda split=split: caltech(split, None, caltech_path))
 
 
 def get_imdb(name):

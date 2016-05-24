@@ -60,19 +60,19 @@ class SolverWrapper(object):
 
         scale_bbox_params = (cfg.TRAIN.BBOX_REG and
                              cfg.TRAIN.BBOX_NORMALIZE_TARGETS and
-                             net.params.has_key('bbox_pred'))
+                             net.params.has_key('bbox_pred_caltech'))
 
         if scale_bbox_params:
             # save original values
-            orig_0 = net.params['bbox_pred'][0].data.copy()
-            orig_1 = net.params['bbox_pred'][1].data.copy()
+            orig_0 = net.params['bbox_pred_caltech'][0].data.copy()
+            orig_1 = net.params['bbox_pred_caltech'][1].data.copy()
 
             # scale and shift with bbox reg unnormalization; then save snapshot
-            net.params['bbox_pred'][0].data[...] = \
-                    (net.params['bbox_pred'][0].data *
+            net.params['bbox_pred_caltech'][0].data[...] = \
+                    (net.params['bbox_pred_caltech'][0].data *
                      self.bbox_stds[:, np.newaxis])
-            net.params['bbox_pred'][1].data[...] = \
-                    (net.params['bbox_pred'][1].data *
+            net.params['bbox_pred_caltech'][1].data[...] = \
+                    (net.params['bbox_pred_caltech'][1].data *
                      self.bbox_stds + self.bbox_means)
 
         infix = ('_' + cfg.TRAIN.SNAPSHOT_INFIX
@@ -86,8 +86,8 @@ class SolverWrapper(object):
 
         if scale_bbox_params:
             # restore net to original state
-            net.params['bbox_pred'][0].data[...] = orig_0
-            net.params['bbox_pred'][1].data[...] = orig_1
+            net.params['bbox_pred_caltech'][0].data[...] = orig_0
+            net.params['bbox_pred_caltech'][1].data[...] = orig_1
         return filename
 
     def train_model(self, max_iters):
@@ -115,7 +115,7 @@ def get_training_roidb(imdb):
     """Returns a roidb (Region of Interest database) for use in training."""
     if cfg.TRAIN.USE_FLIPPED:
         print 'Appending horizontally-flipped training examples...'
-        imdb.append_flipped_images()
+        #imdb.append_flipped_images()
         print 'done'
 
     print 'Preparing training data...'
