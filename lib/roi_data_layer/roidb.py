@@ -22,16 +22,12 @@ def prepare_roidb(imdb):
     """
     sizes = []
     for i in xrange(imdb.num_images):
-        print 'loaded {}/{}'.format(i, imdb.num_images)
         sizes.append(PIL.Image.open(imdb.image_path_at(i)).size)
 
     #sizes = [PIL.Image.open(imdb.image_path_at(i)).size
      #        for i in xrange(imdb.num_images)]
-    print 'Loading roidb'
     roidb = imdb.roidb
-    print 'Loaded roidb'
     for i in xrange(len(imdb.image_index)):
-        print 'preparing {}/{}'.format(i, len(imdb.image_index))
         roidb[i]['image'] = imdb.image_path_at(i)
         roidb[i]['width'] = sizes[i][0]
         roidb[i]['height'] = sizes[i][1]

@@ -527,7 +527,7 @@ layer {
   python_param {
     module: 'rpn.proposal_target_layer'
     layer: 'ProposalTargetLayer'
-    param_str: "'num_classes': 21"
+    param_str: "'num_classes': 2"
   }
 }
 

@@ -27,13 +27,12 @@ class caltech(imdb):
         self._image_set = image_set
         self._devkit_path = devkit_path
         self._data_path = os.path.join(self._devkit_path, 'data')
-        self._classes = ('__background__', # always index 0
-			 'person')
+        self._classes = ('__background__',  'person')
         self._class_to_ind = dict(zip(self.classes, xrange(self.num_classes)))
         self._image_ext = '.jpg'
         self._image_index = self._load_image_set_index()
         # Default to roidb handler
-        #self._roidb_handler = self.rpn_roidb
+        self._roidb_handler = self.rpn_roidb
         self._salt = str(uuid.uuid4())
         self._comp_id = 'comp4'
 
@@ -137,7 +136,6 @@ class caltech(imdb):
                'rpn data not found at: {}'.format(filename)
         with open(filename, 'rb') as f:
             box_list = cPickle.load(f)
-        import pdb; pdb.set_trace()
         return self.create_roidb_from_box_list(box_list, gt_roidb)
 
     def _load_selective_search_roidb(self, gt_roidb):

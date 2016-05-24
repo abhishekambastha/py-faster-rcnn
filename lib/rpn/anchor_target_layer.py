@@ -15,7 +15,7 @@ from generate_anchors import generate_anchors
 from utils.cython_bbox import bbox_overlaps
 from fast_rcnn.bbox_transform import bbox_transform
 
-DEBUG = False
+DEBUG = True
 
 class AnchorTargetLayer(caffe.Layer):
     """
@@ -53,6 +53,7 @@ class AnchorTargetLayer(caffe.Layer):
             print 'AnchorTargetLayer: height', height, 'width', width
 
         A = self._num_anchors
+	print 'height: {}, width: {}, A: {}'.format(height, width, A)
         # labels
         top[0].reshape(1, 1, A * height, width)
         # bbox_targets
@@ -223,6 +224,7 @@ class AnchorTargetLayer(caffe.Layer):
         # labels
         labels = labels.reshape((1, height, width, A)).transpose(0, 3, 1, 2)
         labels = labels.reshape((1, 1, A * height, width))
+	print 'labels.shape: {}'.format(labels.shape)
         top[0].reshape(*labels.shape)
         top[0].data[...] = labels
 
