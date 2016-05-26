@@ -97,12 +97,20 @@ class caltech(imdb):
             with open(cache_file, 'rb') as fid:
                 roidb = cPickle.load(fid)
             print '{} gt roidb loaded from {}'.format(self.name, cache_file)
-            
-            self['rpn_file'] = cache_file
             return roidb
 
-        gt_roidb = [self._load_caltech_annotation(index)
-                    for index in self.image_index]
+        #gt_roidb = [self._load_caltech_annotation(index)
+         #           for index in self.image_index]
+        filename = os.path.join(self._data_path, 'Annotations', 'annotations.json')
+        with open(filename) as f:
+            data = json.load(f)
+
+
+	gt_roidb = []
+	for index in self.image_index:
+            gt_roidb.append(self._load_caltech_annotation(index, data))
+	    print 'Got roidb for index {}'.format(index)
+
         with open(cache_file, 'wb') as fid:
             cPickle.dump(gt_roidb, fid, cPickle.HIGHEST_PROTOCOL)
         print 'wrote gt roidb to {}'.format(cache_file)
@@ -157,11 +165,17 @@ class caltech(imdb):
 
         return self.create_roidb_from_box_list(box_list, gt_roidb)
 
-    def _load_caltech_annotation(self, index):
+    def open_annotation_file():
+        filename = os.path.join(self._data_path, 'Annotations', 'annotations.json')
+	with open(filename) as f:
+	    data = json.load(f)
+	return data
+
+
+    def _load_caltech_annotation(self, index, data):
         """
         Load image and bounding boxes info from txt files of Right Whale Challenge.
         """
-        filename = os.path.join(self._data_path, 'Annotations', 'annotations.json')
         # print 'Loading: {}'.format(filename)
         # with open(filename) as f:
         #    data = f.read()
@@ -169,9 +183,6 @@ class caltech(imdb):
         # objs = re.findall('\(\d+, \d+\)[\s\-]+\(\d+, \d+\)', data)
 
         # num_objs = len(objs)
-
-        with open(filename) as f:
-            data = json.load(f)
 
         objs = data[index]
         num_objs = data[index]['num_objects']
